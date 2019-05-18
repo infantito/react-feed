@@ -1,0 +1,32 @@
+{
+  "name": "feed-react-backend",
+  "version": "1.0.0",
+  "description": "App that list comments like facebook feed",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "debug": "nodemon --inspect-brk server.js",
+    "sequelize-template": "sequelize init",
+    "test": "jest"
+  },
+  "author": "infantito <danielinfantito61@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-boost": "~0.3.1",
+    "apollo-server-express": "~2.5.0",
+    "body-parser": "~1.19.0",
+    "dotenv": "~8.0.0",
+    "express": "~4.16.4",
+    "graphql": "~14.3.0",
+    "graphql-tag": "~2.10.1",
+    "morgan": "~1.9.1",
+    "mysql2": "~1.6.5",
+    "sequelize": "~5.8.6"
+  },
+  "devDependencies": {
+    "jest": "~24.8.0",
+    "nodemon": "^1.19.0",
+    "sequelize-cli": "~5.4.0"
+  }
+}
