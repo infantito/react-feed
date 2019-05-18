@@ -18,7 +18,7 @@ const StyledPage = styled.div`
 `;
 
 const Inner = styled.div`
-  height: 100vh;
+  height: 100%;
   max-width: ${props => props.theme.maxWidth};
   margin: 0 auto;
   padding: 2rem;
@@ -26,6 +26,7 @@ const Inner = styled.div`
 
 const GlobalStyles = createGlobalStyle`
   html {
+    background-color: ${theme.background};
     box-sizing: border-box;
     font-size: 10px;
     min-height: 100%;
@@ -55,6 +56,17 @@ const GlobalStyles = createGlobalStyle`
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
+  }
+
+  ::-webkit-scrollbar {
+    background-color: ${theme.border};
+    border-left: 1px solid ${theme.submit};
+    width: 12.5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: ${theme.submit};
+    outline: 10px solid transparent;
   }
 `;
 

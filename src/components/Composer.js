@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
-import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo';
+import styled from 'styled-components';
 
 import Button from './Button';
 import TextArea from './TextArea';
@@ -12,6 +13,13 @@ const CREATE_POST_MUTATION = gql`
       description
     }
   }
+`;
+
+const Fieldset = styled.fieldset`
+  border: 0;
+  outline: 0;
+  margin: 0;
+  padding: 0;
 `;
 
 class Composer extends PureComponent {
@@ -30,7 +38,9 @@ class Composer extends PureComponent {
 
     if (self.state.description.length) {
       createPost();
-      self.setState({ description: '' });
+      self.setState({ description: '' }, () => {
+        alert('Comment posted');
+      });
     }
   }
 
@@ -46,35 +56,33 @@ class Composer extends PureComponent {
     const { props, state } = self;
 
     return (
-      <form>
-        <div>
-          <TextArea
-            value={state.description}
-            maxLength={props.maxLength}
-            placeholder={props.placeholder}
-            onChange={self.handleChange}
-          />
-          <Mutation
-            mutation={CREATE_POST_MUTATION}
-            variables={{
-              description: state.description,
-              userId: 1,
-            }}
-          >
-            {
-              (createPost, { loading }) => (
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  onClick={self.handleSubmit(createPost)}
-                >
-                  Send{loading && 'ing'} comment
-                </Button>
-              )
-            }
-          </Mutation>
-        </div>
-      </form>
+      <Mutation
+        mutation={CREATE_POST_MUTATION}
+        variables={{
+          description: state.description,
+          userId: 1,
+        }}
+      >
+        {
+          (createPost, { loading }) => (
+            <form
+              onSubmit={self.handleSubmit(createPost)}
+            >
+              <Fieldset disabled={loading}>
+                <TextArea
+                  value={state.description}
+                  maxLength={props.maxLength}
+                  placeholder={props.placeholder}
+                  onChange={self.handleChange}
+                />
+                  <Button type="submit" disabled={loading}>
+                    Send{loading && 'ing'} comment
+                  </Button>
+              </Fieldset>
+            </form>
+          )
+        }
+      </Mutation>
     );
   }
 }

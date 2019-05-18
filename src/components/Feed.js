@@ -25,19 +25,23 @@ const ALL_POSTS_BY_USER_QUERY = gql`
 `;
 
 const DELETE_POST_MUTATION = gql`
-  mutation DELETE_POST_MUTATION($id: ID!) {
-    deletePost(id: $id)
+  mutation DELETE_POST_MUTATION($id: ID!, $userId: ID!) {
+    deletePost(id: $id, userId: $userId)
   }
 `;
 
 const Feed = (props) => {
+  const handleDelete = (removePost) => (e) => {
+    removePost();
+    alert('This comment will be deleted!');
+  }
+  const userId = 1;
+
   return (
     <div>
       <Query
         query={ALL_POSTS_BY_USER_QUERY}
-        variables={{
-          userId: 1,
-        }}
+        variables={{ userId, }}
       >
         {
           ({ data: { posts }, error, loading }) => {
@@ -45,19 +49,23 @@ const Feed = (props) => {
             if (error) return <p>Error: {error.message}</p>;
 
             return (
-              posts.map((post) => (
+              posts.reverse().map((post) => (
                 <Audience key={post.id}>
                   <Post width="75%">{post.description}</Post>
                   <Mutation
                     mutation={DELETE_POST_MUTATION}
-                    variables={{ id: post.id }}
+                    variables={{ id: post.id, userId, }}
+                    refetchQueries={[{
+                      query: ALL_POSTS_BY_USER_QUERY,
+                      variables: { userId, }
+                    }]}
                   >
                     {
                       (deletePost, { loading }) => (
                         <Button
                           type="button"
                           width="125px"
-                          onClick={deletePost}
+                          onClick={handleDelete(deletePost)}
                           auto
                         >
                           Delete
