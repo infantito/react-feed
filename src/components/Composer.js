@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import Button from './Button';
 import TextArea from './TextArea';
+import { ALL_POSTS_BY_USER_QUERY } from './Feed';
 
 const CREATE_POST_MUTATION = gql`
   mutation CREATE_POST_MUTATION($description: String!, $userId: ID!) {
@@ -29,6 +30,7 @@ class Composer extends PureComponent {
   };
 
   state = {
+    userId: 1,
     description: '',
   };
 
@@ -59,9 +61,13 @@ class Composer extends PureComponent {
       <Mutation
         mutation={CREATE_POST_MUTATION}
         variables={{
-          description: state.description,
-          userId: 1,
+          description: state.description.trim(),
+          userId: state.userId,
         }}
+        refetchQueries={[{
+          query: ALL_POSTS_BY_USER_QUERY,
+          variables: { userId: state.userId, }
+        }]}
       >
         {
           (createPost, { loading }) => (

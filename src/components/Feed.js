@@ -83,4 +83,5 @@ const Feed = (props) => {
   );
 }
 
+export { ALL_POSTS_BY_USER_QUERY };
 export default memo(Feed);
