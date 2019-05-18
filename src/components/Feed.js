@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-// import { adopt } from 'react-adopt';
 import styled from 'styled-components';
 
 import Button from './Button';
@@ -16,7 +15,7 @@ const Audience = styled.div`
 `;
 
 const ALL_POSTS_BY_USER_QUERY = gql`
-  query ALL_POSTS_BY_USER_QUERY($userId: ID = 1) {
+  query ALL_POSTS_BY_USER_QUERY($userId: ID!) {
     posts(userId: $userId) {
       id
       description
@@ -46,7 +45,7 @@ const Feed = (props) => {
             return (
               posts.map((post) => (
                 <Audience key={post.id}>
-                  <Post width="75%">{posts.description}</Post>
+                  <Post width="75%">{post.description}</Post>
                   <Button
                     type="button"
                     width="125px"

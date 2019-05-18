@@ -5,6 +5,7 @@ const Button = styled.button`
   border: 2px solid ${props => props.theme.submit};
   border-radius: 5px;
   color: ${props => props.theme.text};
+  cursor: pointer;
   height: 40px;
   outline: none;
   margin: 5px ${props => props.auto ? 'auto' : 0};

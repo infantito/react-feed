@@ -1,24 +1,16 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components'
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import Button from './Button';
+import TextArea from './TextArea';
 
-const TextArea = styled.textarea`
-  background-color: ${props => props.theme.background};
-  border: 2px solid ${props => props.theme.border};
-  box-shadow: ${props => props.theme.bs};
-  border-radius: 5px;
-  color: #fff;
-  display: block;
-  height: 150px;
-  margin: 0 auto;
-  padding: 10px;
-  outline: none;
-  overflow: auto;
-  resize: none;
-  width: 100%;
-  &:focus {
-    border-color: ${props => props.theme.blue};
+const CREATE_POST_MUTATION = gql`
+  mutation CREATE_POST_MUTATION($description: String!, $userId: ID!) {
+    createPost(description: $description, userId: $userId) {
+      id
+      description
+    }
   }
 `;
 
@@ -32,10 +24,14 @@ class Composer extends PureComponent {
     description: '',
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = (createPost) => (e) => {
     e.preventDefault();
+    const self = this;
 
-    console.log(e);
+    if (self.state.description.length) {
+      createPost();
+      self.setState({ description: '' });
+    }
   }
 
   handleChange = (e) => {
@@ -58,12 +54,24 @@ class Composer extends PureComponent {
             placeholder={props.placeholder}
             onChange={self.handleChange}
           />
-          <Button
-            type="submit"
-            onClick={self.handleSubmit}
+          <Mutation
+            mutation={CREATE_POST_MUTATION}
+            variables={{
+              description: state.description,
+              userId: 1,
+            }}
           >
-            Send comment
-          </Button>
+            {
+              (createPost, { loading }) => (
+                <Button
+                  type="submit"
+                  onClick={self.handleSubmit(createPost)}
+                >
+                  Send comment
+                </Button>
+              )
+            }
+          </Mutation>
         </div>
       </form>
     );
