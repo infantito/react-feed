@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 
@@ -24,11 +24,13 @@ const ALL_POSTS_BY_USER_QUERY = gql`
   }
 `;
 
-const Feed = (props) => {
-  const handleDelete = (e) => {
-    console.log(e);
+const DELETE_POST_MUTATION = gql`
+  mutation DELETE_POST_MUTATION($id: ID!) {
+    deletePost(id: $id)
   }
+`;
 
+const Feed = (props) => {
   return (
     <div>
       <Query
@@ -46,14 +48,23 @@ const Feed = (props) => {
               posts.map((post) => (
                 <Audience key={post.id}>
                   <Post width="75%">{post.description}</Post>
-                  <Button
-                    type="button"
-                    width="125px"
-                    onClick={handleDelete}
-                    auto
+                  <Mutation
+                    mutation={DELETE_POST_MUTATION}
+                    variables={{ id: post.id }}
                   >
-                    Delete
-                  </Button>
+                    {
+                      (deletePost, { loading }) => (
+                        <Button
+                          type="button"
+                          width="125px"
+                          onClick={deletePost}
+                          auto
+                        >
+                          Delete
+                        </Button>
+                      )
+                    }
+                  </Mutation>
                 </Audience>
               ))
             );

@@ -65,9 +65,10 @@ class Composer extends PureComponent {
               (createPost, { loading }) => (
                 <Button
                   type="submit"
+                  disabled={loading}
                   onClick={self.handleSubmit(createPost)}
                 >
-                  Send comment
+                  Send{loading && 'ing'} comment
                 </Button>
               )
             }
