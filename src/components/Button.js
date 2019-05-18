@@ -7,8 +7,8 @@ const Button = styled.button`
   color: ${props => props.theme.text};
   height: 40px;
   outline: none;
-  margin: 5px 0;
-  width: 100%;
+  margin: 5px ${props => props.auto ? 'auto' : 0};
+  width: ${props => props.width || '100%'};
   &:active {
     border-color: ${props => props.theme.black};
   }

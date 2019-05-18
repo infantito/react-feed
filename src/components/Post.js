@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 
 const Post = styled.div`
-  background-color: ${props => props.theme.submit};
+  background-color: #273e5a;
   border: 2px solid ${props => props.theme.submit};
   border-radius: 5px;
   color: ${props => props.theme.text};
-  height: 40px;
-  width: 100%;
+  display: block;
+  height: 80px;
+  margin: 0 auto;
+  padding: 10px;
+  width: ${props => props.width || '100%'};
+  @media only screen and (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 export default Post;

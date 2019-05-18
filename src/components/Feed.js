@@ -1,31 +1,66 @@
 import React, { memo } from 'react';
-import styled from 'styled-components'
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+// import { adopt } from 'react-adopt';
+import styled from 'styled-components';
 
 import Button from './Button';
 import Post from './Post';
 
-const ContentPost = styled.div`
+const Audience = styled.div`
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   padding: 5px 0;
 `;
 
+const ALL_POSTS_BY_USER_QUERY = gql`
+  query ALL_POSTS_BY_USER_QUERY($userId: ID = 1) {
+    posts(userId: $userId) {
+      id
+      description
+      createdAt
+    }
+  }
+`;
+
 const Feed = (props) => {
-  const posts = props.posts || [];
   const handleDelete = (e) => {
     console.log(e);
   }
 
   return (
     <div>
-      {
-        posts.map((post) => (
-          <ContentPost>
-            <Post>{posts.description}</Post>
-            <Button type="button" onClick={handleDelete}>
-              Delete
-            </Button>
-          </ContentPost>
-        ))
-      }
+      <Query
+        query={ALL_POSTS_BY_USER_QUERY}
+        variables={{
+          userId: 1,
+        }}
+      >
+        {
+          ({ data: { posts }, error, loading }) => {
+            if (loading) return <p>Loading...</p>;
+            if (error) return <p>Error: {error.message}</p>;
+
+            return (
+              posts.map((post) => (
+                <Audience key={post.id}>
+                  <Post width="75%">{posts.description}</Post>
+                  <Button
+                    type="button"
+                    width="125px"
+                    onClick={handleDelete}
+                    auto
+                  >
+                    Delete
+                  </Button>
+                </Audience>
+              ))
+            );
+          }
+        }
+      </Query>
     </div>
   );
 }

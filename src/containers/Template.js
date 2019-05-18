@@ -14,7 +14,7 @@ const theme = {
 
 const StyledPage = styled.div`
   background-color: ${props => props.theme.background};
-  color: ${props => props.theme.black};
+  color: ${props => props.theme.text};
 `;
 
 const Inner = styled.div`
@@ -49,7 +49,7 @@ const GlobalStyles = createGlobalStyle`
 
   a {
     text-decoration: none;
-    color: ${theme.green};
+    color: ${theme.submit};
   }
 
   code {
