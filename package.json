@@ -1,5 +1,6 @@
 {
-  "name": "frontend",
+  "name": "feed-react-frontend",
+  "description": "App that list comments like facebook feed",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

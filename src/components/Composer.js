@@ -37,12 +37,15 @@ class Composer extends PureComponent {
   handleSubmit = (createPost) => (e) => {
     e.preventDefault();
     const self = this;
+    const description = self.state.description;
 
-    if (self.state.description.length) {
+    if (description.trim().length) {
       createPost();
       self.setState({ description: '' }, () => {
         alert('Comment posted');
       });
+    } else {
+      alert('Type your comment, please!');
     }
   }
 
@@ -56,17 +59,18 @@ class Composer extends PureComponent {
   render() {
     const self = this;
     const { props, state } = self;
+    const { description, userId } = state;
 
     return (
       <Mutation
         mutation={CREATE_POST_MUTATION}
         variables={{
-          description: state.description.trim(),
-          userId: state.userId,
+          description: description.trim(),
+          userId: userId,
         }}
         refetchQueries={[{
           query: ALL_POSTS_BY_USER_QUERY,
-          variables: { userId: state.userId, }
+          variables: { userId: userId, }
         }]}
       >
         {
@@ -76,7 +80,7 @@ class Composer extends PureComponent {
             >
               <Fieldset disabled={loading}>
                 <TextArea
-                  value={state.description}
+                  value={description}
                   maxLength={props.maxLength}
                   placeholder={props.placeholder}
                   onChange={self.handleChange}
