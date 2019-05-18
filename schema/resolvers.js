@@ -60,14 +60,14 @@ const resolvers = {
     },
     async deletePost(
       parent,
-      { id },
+      { id, userId },
       { db },
       info
     ) {
       // return db.post.destroy({
       return db.post.update(
         { available: false },
-        { where: { id } }
+        { where: { id, userId } }
       );
     },
   },
