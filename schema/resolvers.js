@@ -4,44 +4,56 @@ const resolvers = {
     async user(
       parent,
       { id },
-      { models }
+      { db }
     ) {
-      return models.User.findById(id);
+      return db.user.findByPk(id);
     },
     async posts(
       parent,
-      { args },
-      { models }
+      { userId },
+      { db },
+      info
     ) {
-      return models.Post.findAll();
+      return db.post.findAll({
+        where: { userId, available: true, },
+      });
     },
     async post(
       parent,
       { id },
-      { models }
+      { db }
     ) {
-      return models.Post.findById(id);
+      return db.post.findByPk(id);
     },
   },
   Mutation: {
+    async createUser(
+      parent,
+      { fullname, nickname, password },
+      { db }
+    ) {
+      return db.user.create({
+        fullname,
+        nickname,
+        password,
+      });
+    },
     async createPost(
       parent,
-      { description, userId, date, available = true, },
-      { models }
+      { description, userId, },
+      { db }
     ) {
-      return models.User.create({
+      return db.post.create({
         description,
         userId,
-        date,
-        available,
       });
     },
     async updatePost(
       parent,
-      { id, available },
-      { models }
+      { id, available, },
+      { db }
     ) {
-      return models.Post.update(
+      return db.post.update(
         { available },
         { where: { id } },
       );
@@ -49,10 +61,10 @@ const resolvers = {
     async deletePost(
       parent,
       { id },
-      { models },
+      { db },
       info
     ) {
-      return models.Post.destroy({
+      return db.post.destroy({
         where: { id },
       });
     },

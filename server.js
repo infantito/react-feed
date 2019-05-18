@@ -1,35 +1,30 @@
+require('dotenv').config({ path: '.env' });
+
 const express = require('express');
 const logger = require('morgan');
 const { ApolloServer } = require('apollo-server-express');
 const bodyParser = require('body-parser');
 
+const db = require('./models');
 const typeDefs = require('./schema/typeDefs');
 const resolvers = require('./schema/resolvers');
 
-const { ENV } = require('./config');
+const PORT = process.env.PORT || 8080;
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: { db },
   playground: true,
 });
 
 const app = express();
 
-// Logger
+app.use(express.static('app/public'));
 app.use(logger('dev'));
-
-// Parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false, }));
-
-// standard
-app.get('*', (request, response) => response.status(200).send({
-  message: 'We\'re sorry. Something went wrong!',
-}));
 server.applyMiddleware({ app });
 
 app.listen(
-  { port: ENV.PORT },
-  () => console.log(`🚀 Server ready at http://localhost:${ENV.PORT}${server.graphqlPath}`)
+  { port: PORT },
+  () => console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
 );

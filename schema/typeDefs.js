@@ -15,14 +15,14 @@ const typeDefs = gql`
     id: ID!
     description: String!
     user: User!
-    date: String!
+    createdAt: String!
     available: Boolean!
   }
 
   type Query {
     user(id: ID!): User
     post(id: ID!): Post
-    posts: [Post!]!
+    posts(userId: ID): [Post!]!
   }
 
   type Mutation {
@@ -30,16 +30,13 @@ const typeDefs = gql`
       fullname: String!
       nickname: String!
       password: String!
-      available: Boolean!
     ): User!
     createPost(
       description: String!,
       userId: ID!,
-      date: String!
-      available: Boolean!
     ): Post!
-    updatePost(id: ID!, description: String!): [Int!]!
-    deletePost(id: ID!): Int!
+    updatePost(id: ID!, available: Boolean!): [Int!]!
+    deletePost(id: ID!): Int
   }
 `;
 
