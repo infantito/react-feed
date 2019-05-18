@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon --inspect-brk server.js",
+    "server": "nodemon server.js",
+    "debug": "nodemon --inspect-brk server.js",
     "sequelize-template": "sequelize init"
   },
   "author": "infantito <danielinfantito61@gmail.com>",

@@ -50,11 +50,11 @@ const resolvers = {
     },
     async updatePost(
       parent,
-      { id, available, },
+      { id, description, },
       { db }
     ) {
       return db.post.update(
-        { available },
+        { description },
         { where: { id } },
       );
     },
@@ -64,9 +64,11 @@ const resolvers = {
       { db },
       info
     ) {
-      return db.post.destroy({
-        where: { id },
-      });
+      // return db.post.destroy({
+      return db.post.update(
+        { available: false },
+        { where: { id } }
+      );
     },
   },
   User: {

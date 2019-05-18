@@ -36,7 +36,7 @@ const typeDefs = gql`
       userId: ID!,
     ): Post!
     updatePost(id: ID!, available: Boolean!): [Int!]!
-    deletePost(id: ID!): Int
+    deletePost(id: ID!): [Int!]!
   }
 `;
 
