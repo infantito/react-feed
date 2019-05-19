@@ -4,8 +4,8 @@
   "description": "App that list comments like facebook feed",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js",
+    "server": "node server.js",
+    "start": "nodemon server.js",
     "debug": "nodemon --inspect-brk server.js",
     "sequelize-template": "sequelize init",
     "test": "jest"
