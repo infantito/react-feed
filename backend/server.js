@@ -24,7 +24,7 @@ const server = new ApolloServer({
 
 const app = express();
 
-app.use(express.static('frontend/public'));
+app.use(express.static('app/public'));
 app.use(logger('dev'));
 server.applyMiddleware({ app, path: '/',  playgroundPath: '/graphql' });
 
