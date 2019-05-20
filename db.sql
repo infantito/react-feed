@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   PRIMARY KEY (`id`),
   KEY `FK_post_user` (`userId`),
   CONSTRAINT `FK_post_user` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1 COLLATE=utf8_general_ci COMMENT='all posts';
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='all posts';
 
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
 INSERT INTO `post` (`id`, `description`, `userId`, `createdAt`, `available`) VALUES
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `available` bit(1) NOT NULL DEFAULT b'1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE KEY` (`nickname`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=utf8_general_ci COMMENT='all user to access';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='all user to access';
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `fullname`, `nickname`, `password`, `createdAt`, `available`) VALUES
